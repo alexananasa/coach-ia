@@ -23,7 +23,7 @@ Le fichier généré est `docs/index.html`. Pour le produire sur ton ordinateur 
 python generate_dashboard.py
 ```
 
-Ouvre ensuite `docs/index.html` dans un navigateur. Le workflow GitHub le régénère chaque jour, après les changements de programme ou de journal, et sur demande depuis **Actions → Mettre à jour le tableau de bord**. Il n’active pas d’hébergement public.
+Ouvre ensuite `docs/index.html` dans un navigateur. Le workflow GitHub régénère le tableau de bord chaque jour et après les changements de programme ou de journal. Si GitHub Pages est activé pour ce dépôt, le même workflow publie ensuite `docs/` à l’adresse `https://alexananasa.github.io/coach-muscu-perso/`.
 
 ## Graphiques musculation
 
@@ -62,7 +62,7 @@ La charge initiale est une estimation à partir du 1RM déclaré, via une formul
 
 ## Confidentialité
 
-Le dépôt est privé parce qu’il contient des maxima de force, des réglages de salle et un poids de corps. Ne le rends pas public sans retirer ces données. Le tableau de bord reste dans le dépôt et aucun workflow ne le publie sur un site public. Ce projet n’appelle ni Garmin, ni Gemini, ni Firebase et n’envoie pas ces informations à un service tiers.
+Le dépôt source est privé car il contient des maxima de force, des réglages de salle et un poids de corps. GitHub Pages rend le site accessible publiquement même si le dépôt source reste privé ; son tableau de bord affiche ces données. L’hébergement d’un dépôt privé nécessite un forfait GitHub compatible. Le workflow attend que Pages soit activé avant de déployer. Ce projet n’appelle ni Garmin, ni Gemini, ni Firebase.
 
 La répartition jambes/haut du corps a été reprise telle quelle du programme source. Dans ce programme, le faible volume jambes était en partie justifié par un entraînement de course qui n’est pas géré ici ; fais réévaluer cette répartition si tu veux un programme entièrement indépendant de la course.
 
