@@ -36,7 +36,7 @@ jobs:
       - name: Enregistrer les fichiers générés
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/index.html data/seances.json
           if git diff --cached --quiet; then
             echo "Aucun changement à enregistrer."
@@ -56,17 +56,41 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Vérifier si GitHub Pages est activé pour ce dépôt
+        id: pages
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.repos.getPages({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              core.setOutput("ready", "true");
+            } catch (error) {
+              if (error.status === 403 || error.status === 404) {
+                core.notice("GitHub Pages n’est pas activé ou n’est pas disponible pour ce dépôt. Le déploiement est ignoré.");
+                core.setOutput("ready", "false");
+              } else {
+                throw error;
+              }
+            }
+
       - name: Récupérer la dernière version générée
+        if: steps.pages.outputs.ready == 'true'
         uses: actions/checkout@v4
 
       - name: Préparer GitHub Pages
+        if: steps.pages.outputs.ready == 'true'
         uses: actions/configure-pages@v5
 
       - name: Préparer les fichiers statiques
+        if: steps.pages.outputs.ready == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs
 
       - name: Publier sur GitHub Pages
+        if: steps.pages.outputs.ready == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
