@@ -696,7 +696,6 @@ def progression_svg(ex, points, width=620, height=220):
         + ''.join(deloads) + ''.join(grid)
         + f'<path d="{" ".join(path)}" fill="none" stroke="#176b50" stroke-width="2.5" stroke-linejoin="round"/>'
         + ''.join(dots) + ''.join(labels)
-        + f'<text class="chart-axis" x="{width-right}" y="{height-1}" text-anchor="end">Charge (kg) · semaines de décharge en orange</text>'
         + '</svg>'
     )
 
@@ -735,13 +734,16 @@ def volume_cycle_chart(program):
             f'<text class="chart-axis" x="{left-8}" y="{y+4:.1f}" text-anchor="end">{value:g}</text>'
         )
     paths, dots, legend = [], [], []
+    dash_styles = ("", "7 4", "2 4", "9 3 2 3", "4 3", "1 3", "11 4")
     for index, group in enumerate(active):
         color = palette[index % len(palette)]
         values = series[group]
         coords = [(x_at(i), y_at(value)) for i, value in enumerate(values)]
+        dash = dash_styles[index % len(dash_styles)]
+        dash_attr = f' stroke-dasharray="{dash}"' if dash else ""
         paths.append(
             f'<polyline points="{" ".join(f"{x:.1f},{y:.1f}" for x,y in coords)}" '
-            f'fill="none" stroke="{color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'
+            f'fill="none" stroke="{color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"{dash_attr}/>'
         )
         for i, ((x, y), value) in enumerate(zip(coords, values)):
             dots.append(
