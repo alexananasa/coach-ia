@@ -1,0 +1,325 @@
+{
+  "_lisez_moi": [
+    "Reps vide = prescription atteinte.",
+    "Saisis reps si une série est sous la cible.",
+    "absent: true empêche de créditer le cycle.",
+    "charge est facultative et ne remplace pas la prescription."
+  ],
+  "seances": [
+    {
+      "date": "2026-10-12",
+      "seance": "Bas",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Squat barre haute",
+          "prescrit_reps": [
+            7,
+            6,
+            6
+          ],
+          "prescrit": "7/6/6",
+          "charge_prescrite": 60.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Soulevé de terre roumain",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 72.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Squat bulgare",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 16.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Leg curl assis",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 32.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Mollets assis",
+          "prescrit_reps": [
+            13,
+            12
+          ],
+          "prescrit": "13/12",
+          "charge_prescrite": 35.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-13",
+      "seance": "Haut A",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Développé couché",
+          "prescrit_reps": [
+            7,
+            6,
+            6
+          ],
+          "prescrit": "7/6/6",
+          "charge_prescrite": 70.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Traction lestée",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 74.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Rowing buste penché",
+          "prescrit_reps": [
+            11,
+            10,
+            10
+          ],
+          "prescrit": "11/10/10",
+          "charge_prescrite": 52.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Dips buste penché",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 74.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl biceps machine",
+          "prescrit_reps": [
+            11,
+            10
+          ],
+          "prescrit": "11/10",
+          "charge_prescrite": 23.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-15",
+      "seance": "Haut B",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Développé incliné",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 22.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Tirage vertical prise neutre",
+          "prescrit_reps": [
+            11,
+            10,
+            10
+          ],
+          "prescrit": "11/10/10",
+          "charge_prescrite": 56.6,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Rowing assis, prise large pronation",
+          "prescrit_reps": [
+            11,
+            10,
+            10
+          ],
+          "prescrit": "11/10/10",
+          "charge_prescrite": 39.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Deltoïde postérieur",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 4.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl Bayesian poulie",
+          "prescrit_reps": [
+            11,
+            10
+          ],
+          "prescrit": "11/10",
+          "charge_prescrite": 11.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Extension triceps overhead",
+          "prescrit_reps": [
+            13,
+            12
+          ],
+          "prescrit": "13/12",
+          "charge_prescrite": 18.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-17",
+      "seance": "Haut C",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Développé pectoraux",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 24.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Tirage grand dorsal unilatéral",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 38.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            16,
+            15,
+            15
+          ],
+          "prescrit": "16/15/15",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Deltoïde postérieur",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 4.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl marteau au pupitre",
+          "prescrit_reps": [
+            11,
+            10
+          ],
+          "prescrit": "11/10",
+          "charge_prescrite": 12.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Pressdown barre droite",
+          "prescrit_reps": [
+            13,
+            12
+          ],
+          "prescrit": "13/12",
+          "charge_prescrite": 33.8,
+          "reps": [],
+          "charge": null
+        }
+      ]
+    }
+  ]
+}
+
