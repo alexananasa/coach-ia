@@ -1,0 +1,12 @@
+{
+  "cycle_anchor": "2026-10-12",
+  "bodyweight_kg": 72.0,
+  "bodyweight_reference_kg": 71.7,
+  "journal_keep_days": 180,
+  "max_gain_per_cycle": 0.05,
+  "max_cycles_per_step": 4,
+  "machine_addon_kg": 2.3,
+  "machine_addons_max": 2
+}
+
+
