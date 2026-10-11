@@ -1096,7 +1096,7 @@ def render_dashboard(today, program, settings, anchor, log, earned):
   <p>Après modification, l’action GitHub régénère la page automatiquement.</p></div>
 </section>
 <div class="section callout"><b>À garder en tête.</b> Le programme et le volume jambes sont repris du dépôt source. La partie course et Garmin n’est pas suivie dans cette application.</div>
-<footer>Données locales au dépôt privé · Aucun appel Garmin, Gemini ou Firebase · Généré le {escape(current_date)}</footer>
+<footer>Tableau de bord personnel · Aucun appel Garmin, Gemini ou Firebase · Généré le {escape(current_date)}</footer>
 </main></body></html>
 """
 
