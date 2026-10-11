@@ -1,4 +1,4 @@
-name: Mettre à jour le tableau de bord
+name: Mettre à jour et publier le tableau de bord
 
 on:
   workflow_dispatch:
@@ -14,11 +14,13 @@ on:
       - ".github/workflows/dashboard.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
@@ -34,7 +36,7 @@ jobs:
       - name: Enregistrer les fichiers générés
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+users.noreply.github.com"
           git add docs/index.html data/seances.json
           if git diff --cached --quiet; then
             echo "Aucun changement à enregistrer."
@@ -43,3 +45,28 @@ jobs:
             git push
           fi
 
+  deploy:
+    needs: refresh
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Récupérer la dernière version générée
+        uses: actions/checkout@v4
+
+      - name: Préparer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Préparer les fichiers statiques
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
