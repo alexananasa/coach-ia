@@ -42,9 +42,17 @@ h1{font-size:clamp(2rem,4vw,3.1rem);line-height:1.08;letter-spacing:-.04em;margi
 .pill{display:inline-flex;align-items:center;border:1px solid #ffffff4d;border-radius:999px;padding:6px 11px;font-size:.78rem;color:#fff;background:#ffffff12}
 .topline{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;position:relative;z-index:1}
 .state{background:var(--lime);color:#18392b;border:0;font-weight:800}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}
-.nav a{background:#fff;border:1px solid var(--line);padding:8px 13px;border-radius:999px;text-decoration:none;font-size:.84rem;color:var(--ink)}
-.nav a:hover{border-color:#8ab89f}
+.nav{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:8;padding:10px 2px;margin:0 0 14px;background:var(--paper);scrollbar-width:thin}
+.nav a{flex:0 0 auto;white-space:nowrap;background:#fff;border:1px solid var(--line);padding:8px 13px;border-radius:999px;text-decoration:none;font-size:.84rem;color:var(--ink)}
+.nav a:hover{border-color:#8ab89f}.nav a[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#fff}
+html.js .section:not(.is-active),html.js .kpis:not(.is-active){display:none}
+.section{scroll-margin-top:76px}
+.session-stack{display:grid;gap:13px}.session-card.is-validated{border-color:#76b890;box-shadow:0 0 0 2px #176b5014}
+.session-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.validation-label{font-size:.84rem;font-weight:750;color:var(--muted)}.session-card.is-validated .validation-label{color:var(--green)}
+button.button{border:0;cursor:pointer;font:inherit;font-size:.86rem}.button.secondary{background:#edf3ef;color:var(--ink)}.button.secondary:hover{background:#dfe9e2}
+.week-validation{display:block;color:var(--green);font-weight:750}.week-validation:empty{display:none}
+.validation-note{font-size:.82rem;color:var(--muted);margin:12px 2px 0}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
 .card,.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 16px #18352a08}
 .kpi{padding:17px 18px}.kpi .label{font-size:.78rem;color:var(--muted);font-weight:650}.kpi strong{display:block;font-size:1.45rem;margin-top:5px;letter-spacing:-.03em}
@@ -73,6 +81,98 @@ footer{margin-top:28px;color:var(--muted);font-size:.78rem;text-align:center}
 @media(max-width:850px){.kpis{grid-template-columns:repeat(2,1fr)}.week-grid{grid-template-columns:repeat(4,1fr)}.today{grid-template-columns:1fr}.today-side{border-right:0;border-bottom:1px solid var(--line);padding:0 0 14px}.programme-grid,.chart-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.wrap{padding:15px 13px 44px}.hero{padding:25px 20px;border-radius:20px}.topline{display:block}.hero .state{margin-top:14px}.kpis{gap:8px}.kpi{padding:13px}.kpi strong{font-size:1.15rem}.week-grid{grid-template-columns:repeat(2,1fr)}.volume-row{grid-template-columns:95px 1fr 28px;gap:8px}.section-head{display:block}}
 """
+
+
+PAGE_SCRIPT = r"""(function () {
+  const storageKey = "coach-ia-validations-v1";
+  const tabs = Array.from(document.querySelectorAll('.nav [role="tab"]'));
+  const panels = Array.from(document.querySelectorAll('.section[id]'));
+  const summary = document.querySelector(".kpis");
+  function activateTab(id) {
+    if (!tabs.some(tab => tab.getAttribute("aria-controls") === id)) id = "aujourdhui";
+    tabs.forEach(tab => {
+      const active = tab.getAttribute("aria-controls") === id;
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+      tab.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(panel => panel.classList.toggle("is-active", panel.id === id));
+    if (summary) summary.classList.toggle("is-active", id === "aujourdhui");
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", event => {
+      event.preventDefault();
+      const id = tab.getAttribute("aria-controls");
+      if (location.hash !== "#" + id) history.pushState(null, "", "#" + id);
+      activateTab(id);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    tab.addEventListener("keydown", event => {
+      let next = index;
+      if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+      else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      tabs[next].focus();
+      tabs[next].click();
+    });
+  });
+  window.addEventListener("hashchange", () => activateTab(location.hash.slice(1)));
+  window.addEventListener("popstate", () => activateTab(location.hash.slice(1)));
+  activateTab(location.hash.slice(1) || "aujourdhui");
+
+  let validations = {};
+  function readValidations() {
+    try {
+      const value = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (_) {
+      return {};
+    }
+  }
+  function paintValidations() {
+    document.querySelectorAll(".session-card[data-session-key]").forEach(card => {
+      const done = Boolean(validations[card.dataset.sessionKey]);
+      card.classList.toggle("is-validated", done);
+      const label = card.querySelector(".validation-label");
+      const button = card.querySelector(".validate-session");
+      if (label) label.textContent = done ? "Séance validée sur cet appareil" : "Séance à valider";
+      if (button) {
+        button.textContent = done ? "Annuler la validation" : "Valider ma séance";
+        button.classList.toggle("secondary", done);
+      }
+    });
+    document.querySelectorAll(".day[data-session-key]").forEach(day => {
+      const badge = day.querySelector(".week-validation");
+      if (!badge) return;
+      const done = Boolean(validations[day.dataset.sessionKey]);
+      day.classList.toggle("is-validated", done);
+      badge.textContent = done ? "✓ Validée" : "";
+    });
+  }
+  validations = readValidations();
+  paintValidations();
+  document.addEventListener("click", event => {
+    const button = event.target.closest(".validate-session");
+    if (!button) return;
+    const card = button.closest(".session-card[data-session-key]");
+    if (!card) return;
+    const key = card.dataset.sessionKey;
+    if (validations[key]) delete validations[key];
+    else validations[key] = true;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(validations));
+    } catch (_) {}
+    paintValidations();
+  });
+  window.addEventListener("storage", event => {
+    if (event.key === storageKey) {
+      validations = readValidations();
+      paintValidations();
+    }
+  });
+})();"""
 
 
 def _literal_block(text: str, name: str):
@@ -553,14 +653,25 @@ def session_card(day, session, entries, today=None, compact=False):
         )
     heading = f'<h3>{escape(session["nom"])}</h3>'
     day_label = date_fr(day) if day else ""
+    card_attrs = ""
+    actions = ""
+    if day is not None:
+        key = f'{day.isoformat()}|{session["nom"]}'
+        card_attrs = f' data-session-key="{escape(key, quote=True)}" data-session-date="{day.isoformat()}"'
+        if today is not None and day <= today:
+            actions = (
+                '<div class="session-actions">'
+                '<span class="validation-label" aria-live="polite">Séance à valider</span>'
+                '<button class="button validate-session" type="button">Valider ma séance</button>'
+                '</div>'
+            )
     return (
-        '<div class="card session-card">'
+        f'<div class="card session-card"{card_attrs}>'
         f'<div class="session-head"><div>{heading}<span>{escape(day_label)}</span></div>'
         f'<span>{total_sets} séries</span></div>'
         f'<div class="exercise-list">{"".join(rows)}</div>'
-        '</div>'
+        f'{actions}</div>'
     )
-
 
 def render_spark(values):
     if not values:
@@ -929,13 +1040,38 @@ def render_dashboard(today, program, settings, anchor, log, earned):
     display_day = today if today_plan else next_day
     display_plan = today_plan or next_plan
     display_week = cycle_week(display_day, anchor, block_len) if display_day else week
-    earned_for_display = compute_credits(log, program, display_day or today, anchor, block_len)
-    today_session_html = (
-        session_card(display_day, display_plan,
-                     session_data(display_plan, display_week or 1, earned_for_display, program, settings))
-        if display_day and display_plan else
-        '<div class="card log-panel"><h3>Programme en attente</h3><p>Renseigne un lundi de départ dans data/settings.json.</p></div>'
-    )
+    recent_session_cards = []
+    for offset in range(-6, 1):
+        session_day = today + timedelta(days=offset)
+        if session_day < anchor:
+            continue
+        session_plan = program["programme"].get(session_day.weekday())
+        if session_plan is None:
+            continue
+        session_week = cycle_week(session_day, anchor, block_len)
+        if session_week is None:
+            continue
+        session_earned = compute_credits(log, program, session_day, anchor, block_len)
+        recent_session_cards.append(
+            session_card(
+                session_day,
+                session_plan,
+                session_data(session_plan, session_week, session_earned, program, settings),
+                today=today,
+            )
+        )
+    if recent_session_cards:
+        today_session_html = '<div class="session-stack">' + "".join(recent_session_cards) + '</div>'
+    elif display_day and display_plan:
+        earned_for_display = compute_credits(log, program, display_day, anchor, block_len)
+        today_session_html = session_card(
+            display_day,
+            display_plan,
+            session_data(display_plan, display_week or 1, earned_for_display, program, settings),
+            today=today,
+        )
+    else:
+        today_session_html = '<div class="card log-panel"><h3>Programme en attente</h3><p>Renseigne un lundi de départ dans data/settings.json.</p></div>'
     this_monday = today - timedelta(days=today.weekday())
     week_cells = []
     for offset in range(7):
@@ -952,10 +1088,10 @@ def render_dashboard(today, program, settings, anchor, log, earned):
             else:
                 small = "à venir"
             week_cells.append(
-                f'<div class="day{" today-day" if day == today else ""}">'
+                f'<div class="day{" today-day" if day == today else ""}" data-session-key="{escape(day.isoformat() + "|" + session["nom"], quote=True)}">'
                 f'<span class="date">{escape(date_short(day))}</span>'
                 f'<strong>{escape(session["nom"])}</strong>'
-                f'<small>{escape(small)}</small>'
+                f'<small>{escape(small)}</small><small class="week-validation" aria-live="polite"></small>'
                 '</div>'
             )
         else:
@@ -1023,6 +1159,7 @@ def render_dashboard(today, program, settings, anchor, log, earned):
 <meta name="theme-color" content="#123c30">
 <meta name="description" content="Programme personnel de musculation, progression et journal.">
 <title>Coach IA</title>
+<script>document.documentElement.classList.add("js");</script>
 <style>{CSS}</style>
 </head>
 <body><main class="wrap">
@@ -1035,40 +1172,46 @@ def render_dashboard(today, program, settings, anchor, log, earned):
   <span class="pill">Cycle {block_len} semaines · RIR {rir}</span>
   <span class="pill">{len(program["programme"])} séances par semaine</span></div>
 </header>
-<nav class="nav" aria-label="Sections du tableau de bord">
-  <a href="#aujourdhui">Séance</a><a href="#semaine">Semaine</a><a href="#volume">Volume</a>
-  <a href="#regularite">Régularité</a><a href="#programme">Programme</a>
-  <a href="#progression">Progression</a><a href="#historique">Historique</a><a href="#journal">Journal</a>
+<nav class="nav" role="tablist" aria-label="Menu du tableau de bord">
+  <a id="tab-aujourdhui" role="tab" aria-controls="aujourdhui" aria-selected="true" tabindex="0" href="#aujourdhui">Séance</a>
+  <a id="tab-semaine" role="tab" aria-controls="semaine" aria-selected="false" tabindex="-1" href="#semaine">Semaine</a>
+  <a id="tab-volume" role="tab" aria-controls="volume" aria-selected="false" tabindex="-1" href="#volume">Volume</a>
+  <a id="tab-regularite" role="tab" aria-controls="regularite" aria-selected="false" tabindex="-1" href="#regularite">Régularité</a>
+  <a id="tab-programme" role="tab" aria-controls="programme" aria-selected="false" tabindex="-1" href="#programme">Programme</a>
+  <a id="tab-progression" role="tab" aria-controls="progression" aria-selected="false" tabindex="-1" href="#progression">Progression</a>
+  <a id="tab-historique" role="tab" aria-controls="historique" aria-selected="false" tabindex="-1" href="#historique">Historique</a>
+  <a id="tab-journal" role="tab" aria-controls="journal" aria-selected="false" tabindex="-1" href="#journal">Journal</a>
 </nav>
-<section class="kpis" aria-label="Résumé">
+<section class="kpis is-active" aria-label="Résumé">
   <div class="kpi"><span class="label">Phase du cycle</span><strong>{escape(week_label)}</strong></div>
   <div class="kpi"><span class="label">RIR cible</span><strong>{rir} répétitions en réserve</strong></div>
   <div class="kpi"><span class="label">Séries prescrites cette semaine</span><strong>{total_sets}</strong></div>
   <div class="kpi"><span class="label">Volume par groupes</span><strong>{len(volume_counts)} groupes suivis</strong></div>
 </section>
-<section class="section" id="aujourdhui">
-  <div class="section-head"><div><h2>{"Ta séance" if today_plan else "À venir"}</h2>
-  <p>{escape(date_fr(display_day) if display_day else "Aucune séance planifiée")}</p></div></div>
+<section class="section is-active" id="aujourdhui" role="tabpanel" aria-labelledby="tab-aujourdhui">
+  <div class="section-head"><div><h2>Mes séances</h2>
+  <p>Valide tes séances après l’entraînement ; les sept derniers jours restent affichés.</p></div></div>
   {today_session_html}
+  <p class="validation-note">La validation est mémorisée dans ce navigateur. Pour synchroniser tes répétitions et ta progression dans le journal GitHub, ouvre l’onglet Journal.</p>
 </section>
-<section class="section" id="semaine">
+<section class="section" id="semaine" role="tabpanel" aria-labelledby="tab-semaine">
   <div class="section-head"><div><h2>Cette semaine</h2><p>Quatre séances prévues ; les jours sans séance restent libres.</p></div></div>
   <div class="week-grid">{"".join(week_cells)}</div>
 </section>
-<section class="section" id="volume">
+<section class="section" id="volume" role="tabpanel" aria-labelledby="tab-volume">
   <div class="section-head"><div><h2>Volume hebdomadaire</h2><p>Nombre de séries prescrites par groupe musculaire.</p></div></div>
   <div class="card volume">{"".join(volume_rows)}</div>
   <div style="margin-top:12px;">{volume_cycle_chart(program)}</div>
 </section>
-<section class="section" id="regularite">
+<section class="section" id="regularite" role="tabpanel" aria-labelledby="tab-regularite">
   <div class="section-head"><div><h2>Assiduité</h2><p>Vue calendrier du programme de musculation sur les douze dernières semaines.</p></div></div>
   {adherence_chart(log, program, today, anchor)}
 </section>
-<section class="section" id="programme">
+<section class="section" id="programme" role="tabpanel" aria-labelledby="tab-programme">
   <div class="section-head"><div><h2>Programme complet</h2><p>Les prescriptions affichées suivent la semaine du cycle en cours.</p></div></div>
   <div class="programme-grid">{"".join(session_card(None, program["programme"][d], session_data(program["programme"][d], week or 1, earned, program, settings)) for d in sorted(program["programme"]))}</div>
 </section>
-<section class="section" id="progression">
+<section class="section" id="progression" role="tabpanel" aria-labelledby="tab-progression">
   <div class="section-head"><div><h2>Progression des charges</h2><p>Projection par exercice sur six cycles ; les bandes orange marquent les semaines de décharge.</p></div></div>
   <p class="chart-note">La charge progresse uniquement après un cycle validé. Les courbes montrent le plan si les répétitions prescrites sont atteintes ; elles ne prédisent pas tes performances.</p>
   <div class="chart-grid">{"".join(projection_cards)}</div>
@@ -1076,11 +1219,11 @@ def render_dashboard(today, program, settings, anchor, log, earned):
   <div class="card projection"><table><thead><tr><th>Exercice · fourchette</th><th>Matériel</th><th>Charge actuelle</th><th>Après un cycle</th><th>Cycles acquis</th><th>7 cycles</th></tr></thead>
   <tbody>{"".join(rows)}</tbody></table></div>
 </section>
-<section class="section" id="historique">
+<section class="section" id="historique" role="tabpanel" aria-labelledby="tab-historique">
   <div class="section-head"><div><h2>Historique des charges</h2><p>Courbes construites à partir des répétitions réellement saisies dans le journal.</p></div></div>
   {performance_history_charts(log)}
 </section>
-<section class="section" id="journal">
+<section class="section" id="journal" role="tabpanel" aria-labelledby="tab-journal">
   <div class="section-head"><div><h2>Journal</h2><p>{escape(save_notice)}</p></div></div>
   <div class="card log-panel"><p>{escape(status_text)} Une répétition sous la prescription bloque le crédit de progression de cet exercice pour le cycle.</p>
   <p>Le journal reste dans ce dépôt. La page ne stocke pas les saisies dans le navigateur.</p>
@@ -1094,10 +1237,10 @@ def render_dashboard(today, program, settings, anchor, log, earned):
   ]
 }}</pre>
   <p>Après modification, l’action GitHub régénère la page automatiquement.</p></div>
+  <div class="callout"><b>À garder en tête.</b> Le programme et le volume jambes sont repris du dépôt source. La partie course et Garmin n’est pas suivie dans cette application.</div>
 </section>
-<div class="section callout"><b>À garder en tête.</b> Le programme et le volume jambes sont repris du dépôt source. La partie course et Garmin n’est pas suivie dans cette application.</div>
 <footer>Tableau de bord personnel · Aucun appel Garmin, Gemini ou Firebase · Généré le {escape(current_date)}</footer>
-</main></body></html>
+</main><script>{PAGE_SCRIPT}</script></body></html>
 """
 
 
