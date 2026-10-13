@@ -79,6 +79,8 @@ jobs:
       - name: Récupérer la dernière version générée
         if: steps.pages.outputs.ready == 'true'
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Préparer GitHub Pages
         if: steps.pages.outputs.ready == 'true'
