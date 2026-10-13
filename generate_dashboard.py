@@ -17,7 +17,7 @@ PROGRAM_PATH = ROOT / "programme_muscu.md"
 SETTINGS_PATH = ROOT / "data" / "settings.json"
 LOG_PATH = ROOT / "data" / "seances.json"
 OUTPUT_PATH = ROOT / "docs" / "index.html"
-REPO_FULL_NAME = "alexananasa/coach-muscu-perso"
+REPO_FULL_NAME = "alexananasa/coach-ia"
 
 JOURS = ("lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche")
 JOURS_COURTS = ("lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim.")
