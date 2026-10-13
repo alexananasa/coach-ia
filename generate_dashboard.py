@@ -1022,13 +1022,13 @@ def render_dashboard(today, program, settings, anchor, log, earned):
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#123c30">
 <meta name="description" content="Programme personnel de musculation, progression et journal.">
-<title>Coach Muscu Perso</title>
+<title>Coach IA</title>
 <style>{CSS}</style>
 </head>
 <body><main class="wrap">
 <header class="hero">
   <div class="topline"><div><p class="eyebrow">Ton entraînement, organisé</p>
-  <h1>Coach Muscu Perso</h1>
+  <h1>Coach IA</h1>
   <p class="sub">Ton programme de musculation, tes charges et ton cycle de progression au même endroit.</p></div>
   <span class="pill state">{escape(current_phase)} · {escape(week_label)}</span></div>
   <div class="hero-meta"><span class="pill">{escape(current_date)}</span>
@@ -1102,7 +1102,7 @@ def render_dashboard(today, program, settings, anchor, log, earned):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Génère Coach Muscu Perso.")
+    parser = argparse.ArgumentParser(description="Génère Coach IA.")
     parser.add_argument("--today", help="Date de génération AAAA-MM-JJ (facultatif).")
     args = parser.parse_args()
     today = date.fromisoformat(args.today) if args.today else date.today()
