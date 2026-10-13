@@ -1,4 +1,4 @@
-# Coach Muscu Perso
+# Coach IA
 
 Un coach de musculation personnel inspiré du dépôt `site_muscu_louis`, limité au programme de force, à son journal, à la progression des charges et à un tableau de bord statique.
 
