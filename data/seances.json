@@ -779,6 +779,96 @@
           "charge": null
         }
       ]
+    },
+    {
+      "date": "2026-10-29",
+      "seance": "Haut B",
+      "semaine_cycle": 3,
+      "rir": 1,
+      "exercices": [
+        {
+          "nom": "Développé incliné",
+          "prescrit_reps": [
+            10,
+            10,
+            10
+          ],
+          "prescrit": "10/10/10",
+          "charge_prescrite": 22.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Tirage vertical prise neutre",
+          "prescrit_reps": [
+            12,
+            12,
+            12
+          ],
+          "prescrit": "12/12/12",
+          "charge_prescrite": 56.6,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Rowing assis, prise large pronation",
+          "prescrit_reps": [
+            12,
+            12,
+            12
+          ],
+          "prescrit": "12/12/12",
+          "charge_prescrite": 39.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            15,
+            14,
+            14
+          ],
+          "prescrit": "15/14/14",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Deltoïde postérieur",
+          "prescrit_reps": [
+            15,
+            14,
+            14
+          ],
+          "prescrit": "15/14/14",
+          "charge_prescrite": 4.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl Bayesian poulie",
+          "prescrit_reps": [
+            12,
+            12
+          ],
+          "prescrit": "12/12",
+          "charge_prescrite": 11.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Extension triceps overhead",
+          "prescrit_reps": [
+            15,
+            14
+          ],
+          "prescrit": "15/14",
+          "charge_prescrite": 18.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
     }
   ]
 }
