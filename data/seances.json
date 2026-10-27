@@ -1010,6 +1010,80 @@
           "charge": null
         }
       ]
+    },
+    {
+      "date": "2026-11-03",
+      "seance": "Haut A",
+      "semaine_cycle": 4,
+      "rir": 4,
+      "exercices": [
+        {
+          "nom": "Développé couché",
+          "prescrit_reps": [
+            6,
+            6
+          ],
+          "prescrit": "6/6",
+          "charge_prescrite": 70.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Traction lestée",
+          "prescrit_reps": [
+            8,
+            8
+          ],
+          "prescrit": "8/8",
+          "charge_prescrite": 74.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Rowing buste penché",
+          "prescrit_reps": [
+            10,
+            10
+          ],
+          "prescrit": "10/10",
+          "charge_prescrite": 52.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Dips buste penché",
+          "prescrit_reps": [
+            8,
+            8
+          ],
+          "prescrit": "8/8",
+          "charge_prescrite": 74.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            12,
+            12
+          ],
+          "prescrit": "12/12",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl biceps machine",
+          "prescrit_reps": [
+            10,
+            10
+          ],
+          "prescrit": "10/10",
+          "charge_prescrite": 23.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
     }
   ]
 }
