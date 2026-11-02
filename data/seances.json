@@ -1243,6 +1243,73 @@
           "charge": null
         }
       ]
+    },
+    {
+      "date": "2026-11-09",
+      "seance": "Bas",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Squat barre haute",
+          "prescrit_reps": [
+            7,
+            6,
+            6
+          ],
+          "prescrit": "7/6/6",
+          "charge_prescrite": 60.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Soulevé de terre roumain",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 72.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Squat bulgare",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 16.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Leg curl assis",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 32.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Mollets assis",
+          "prescrit_reps": [
+            13,
+            12
+          ],
+          "prescrit": "13/12",
+          "charge_prescrite": 35.0,
+          "reps": [],
+          "charge": null
+        }
+      ]
     }
   ]
 }
