@@ -1479,6 +1479,84 @@
           "charge": null
         }
       ]
+    },
+    {
+      "date": "2026-11-14",
+      "seance": "Haut C",
+      "semaine_cycle": 1,
+      "rir": 3,
+      "exercices": [
+        {
+          "nom": "Développé pectoraux",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 24.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Tirage grand dorsal unilatéral",
+          "prescrit_reps": [
+            9,
+            8,
+            8
+          ],
+          "prescrit": "9/8/8",
+          "charge_prescrite": 38.3,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Élévations latérales poulie",
+          "prescrit_reps": [
+            16,
+            15,
+            15
+          ],
+          "prescrit": "16/15/15",
+          "charge_prescrite": 6.8,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Deltoïde postérieur",
+          "prescrit_reps": [
+            13,
+            12,
+            12
+          ],
+          "prescrit": "13/12/12",
+          "charge_prescrite": 4.5,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Curl marteau au pupitre",
+          "prescrit_reps": [
+            11,
+            10
+          ],
+          "prescrit": "11/10",
+          "charge_prescrite": 12.0,
+          "reps": [],
+          "charge": null
+        },
+        {
+          "nom": "Pressdown barre droite",
+          "prescrit_reps": [
+            13,
+            12
+          ],
+          "prescrit": "13/12",
+          "charge_prescrite": 33.8,
+          "reps": [],
+          "charge": null
+        }
+      ]
     }
   ]
 }
